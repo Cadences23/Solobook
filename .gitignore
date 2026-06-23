@@ -1,2 +1,5 @@
 # Local Claude Code tooling (not needed for the live site)
 .claude/
+
+# Local image-generation script (build artifact, has absolute paths)
+make_og.py
