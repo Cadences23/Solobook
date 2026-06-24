@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solobook — The Five Gates</title>
+<meta name="description" content="Walk your real 1099 situation through all Five Gates — tax, floor, runway, debt, and the purchase itself — and get an honest verdict with the math behind every step.">
+<meta name="theme-color" content="#0C2620">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310B981'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%230C2620' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pine:#0C2620; --pine-deep:#081A15; --ink:#06120E;
+    --emerald:#10B981; --emerald-deep:#0B8A63; --mint:#6EE7B7;
+    --gold:#C9A24B; --gold-soft:#E2C988;
+    --bone:#F4F1E9; --bone-warm:#EDE8DC; --cream:#FBFAF6;
+    --tx-dark:#0C2620; --tx-mid:#54625B; --tx-light:#F4F1E9; --tx-dim:#9CB3A9;
+    --line-gold:rgba(201,162,75,0.28); --line-dark:rgba(12,38,32,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',-apple-system,system-ui,sans-serif;background:var(--bone);color:var(--tx-dark);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:500;letter-spacing:-0.01em;}
+  .serif-i{font-style:italic;}
+
+  /* nav */
+  nav{background:var(--ink);}
+  .nav-inner{max-width:1120px;margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:var(--bone);text-decoration:none;}
+  .logo-mark{width:30px;height:30px;border-radius:8px;background:var(--emerald);display:grid;place-items:center;color:var(--pine);font-family:'Inter';font-weight:700;font-size:15px;}
+  .nav-back{font-size:14px;color:rgba(244,241,233,0.82);text-decoration:none;transition:color .15s;}
+  .nav-back:hover{color:var(--mint);}
+
+  /* demo hero */
+  .dh{background:var(--ink);color:var(--bone);text-align:center;padding:54px 0 60px;}
+  .dh .eyebrow{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-soft);display:block;margin-bottom:14px;}
+  .dh h1{font-size:clamp(30px,6vw,46px);line-height:1.08;margin-bottom:14px;}
+  .dh h1 .serif-i{color:var(--mint);}
+  .dh p{color:var(--tx-dim);font-size:16px;max-width:480px;margin:0 auto;line-height:1.6;}
+
+  /* ===== Five Gates demo ===== */
+  .fg-section{background:var(--bone-warm);padding:0 0 70px;}
+  .fg-shell{max-width:600px;margin:0 auto;}
+  .fg-card{background:#fff;border-radius:18px;box-shadow:0 1px 3px rgba(0,0,0,.06),0 12px 32px rgba(0,0,0,.06);padding:30px 22px 26px;margin-top:-36px;position:relative;}
+  @media(min-width:480px){.fg-card{padding:36px 32px 30px;}}
+  .fg-step-count{font-size:12px;color:var(--tx-mid);font-weight:500;margin-bottom:6px;}
+  .fg-progress{height:5px;background:#E4DFD4;border-radius:99px;overflow:hidden;margin-bottom:22px;}
+  .fg-progress>span{display:block;height:100%;background:var(--emerald);border-radius:99px;transition:width .35s ease;}
+  .fg-enter{animation:fgFade .35s ease;}
+  @keyframes fgFade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  .fg-q-title{font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(21px,5vw,26px);line-height:1.2;margin-bottom:8px;color:var(--tx-dark);}
+  .fg-q-help{font-size:14px;color:var(--tx-mid);margin-bottom:22px;line-height:1.55;}
+  .fg-field{margin-bottom:16px;}
+  .fg-field>label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--tx-dark);}
+  .fg-inp{position:relative;}
+  .fg-inp.money::before{content:'$';position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--tx-mid);font-weight:500;font-size:17px;pointer-events:none;}
+  .fg-f{width:100%;padding:15px 16px;font-size:17px;font-family:'Inter',sans-serif;border:1.5px solid #D8DCD9;border-radius:12px;background:#fff;color:var(--tx-dark);transition:border-color .15s,box-shadow .15s;-moz-appearance:textfield;}
+  .fg-inp.money .fg-f{padding-left:30px;}
+  .fg-f:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,.13);}
+  .fg-f::-webkit-inner-spin-button,.fg-f::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+  .fg-row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .fg-err{color:#EF4444;font-size:13px;font-weight:500;margin-top:12px;}
+  .fg-choices{display:grid;gap:10px;}
+  .fg-choices.cols2{grid-template-columns:1fr 1fr;}
+  .fg-choice{text-align:left;padding:16px 18px;border:1.5px solid #D8DCD9;border-radius:12px;background:#fff;font-family:'Inter',sans-serif;font-size:16px;font-weight:500;color:var(--tx-dark);cursor:pointer;transition:all .15s;}
+  .fg-choice .sub{display:block;font-size:12.5px;font-weight:400;color:var(--tx-mid);margin-top:3px;}
+  .fg-choice:hover{border-color:var(--emerald);}
+  .fg-choice.on{border-color:var(--emerald);background:#D1FAE5;}
+  .fg-choice.center{text-align:center;}
+  .fg-nav{display:flex;align-items:center;gap:12px;margin-top:24px;}
+  .fg-btn{font-family:'Inter',sans-serif;font-weight:600;font-size:16px;border-radius:12px;cursor:pointer;transition:all .15s;border:none;}
+  .fg-btn-primary{background:var(--emerald);color:#fff;padding:15px 26px;flex:1;}
+  .fg-btn-primary:hover{background:var(--emerald-deep);}
+  .fg-btn-gold{background:var(--gold);color:var(--pine);}
+  .fg-btn-gold:hover{background:var(--gold-soft);}
+  .fg-btn-back{background:none;border:1.5px solid #D8DCD9;color:var(--tx-mid);padding:15px 18px;font-weight:500;}
+  .fg-btn-back:hover{border-color:var(--tx-mid);}
+  .fg-results{display:none;max-width:600px;margin:24px auto 0;}
+  .fg-results.show{display:block;}
+  .fg-verdict{text-align:center;padding:6px 4px 22px;}
+  .fg-badge{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+  .fg-verdict h3{font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(24px,6vw,32px);margin:10px 0;line-height:1.12;}
+  .fg-verdict p{color:var(--tx-mid);font-size:15px;max-width:440px;margin:0 auto;}
+  .fg-verdict.yes h3{color:var(--emerald-deep);}
+  .fg-verdict.tight h3{color:#C7841C;}
+  .fg-verdict.no h3,.fg-verdict.nope h3{color:#D63B3B;}
+  .fg-score{display:flex;justify-content:center;margin:16px 0 4px;}
+  .fg-dial{width:92px;height:92px;border-radius:50%;display:grid;place-items:center;position:relative;}
+  .fg-dial::before{content:'';position:absolute;inset:9px;background:#fff;border-radius:50%;}
+  .fg-dial b{position:relative;font-family:'Playfair Display',serif;font-size:26px;color:var(--tx-dark);}
+  .fg-dial small{position:relative;display:block;font-size:9px;letter-spacing:.1em;color:var(--tx-mid);text-align:center;}
+  .fg-gates{margin-top:16px;display:grid;gap:10px;}
+  .fg-gate{border:1px solid var(--line-dark);border-radius:14px;overflow:hidden;background:#fff;}
+  .fg-gate-head{display:flex;align-items:center;gap:12px;padding:15px 16px;cursor:pointer;width:100%;background:none;border:none;text-align:left;font-family:'Inter',sans-serif;}
+  .fg-gate-dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:14px;flex-shrink:0;font-weight:700;}
+  .fg-gate-dot.pass{background:#D1FAE5;color:var(--emerald-deep);}
+  .fg-gate-dot.watch{background:#FEF3C7;color:#C7841C;}
+  .fg-gate-dot.fail{background:#FEE2E2;color:#D63B3B;}
+  .fg-gate-meta{flex:1;min-width:0;}
+  .fg-gate-name{font-size:15px;font-weight:600;color:var(--tx-dark);}
+  .fg-gate-verdict{font-size:12px;color:var(--tx-mid);font-weight:500;}
+  .fg-gate-chev{color:var(--tx-mid);font-size:12px;transition:transform .2s;}
+  .fg-gate.open .fg-gate-chev{transform:rotate(90deg);}
+  .fg-gate-body{display:none;padding:0 16px 16px 56px;}
+  .fg-gate.open .fg-gate-body{display:block;}
+  .fg-gate-body .hl{font-size:14px;color:var(--tx-dark);margin-bottom:12px;line-height:1.5;}
+  .fg-math{background:var(--cream);border:1px solid var(--line-dark);border-radius:10px;padding:12px 14px;}
+  .fg-math .ml{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .fg-math ul{list-style:none;display:grid;gap:7px;margin:0;padding:0;}
+  .fg-math li{font-size:12.5px;color:var(--tx-mid);line-height:1.5;padding-left:14px;position:relative;}
+  .fg-math li::before{content:'·';position:absolute;left:3px;color:var(--emerald);font-weight:700;}
+  .fg-recs{margin-top:22px;background:var(--pine);border-radius:16px;padding:24px 20px;color:var(--bone);}
+  .fg-recs h4{font-family:'Playfair Display',serif;font-weight:500;color:var(--mint);font-size:18px;margin-bottom:6px;}
+  .fg-recs>p{color:var(--tx-dim);font-size:13.5px;margin-bottom:16px;line-height:1.55;}
+  .fg-rec{padding:14px 0;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:12px;}
+  .fg-rec:first-of-type{border-top:none;}
+  .fg-rec-num{width:24px;height:24px;border-radius:50%;background:rgba(110,231,183,.16);color:var(--mint);font-size:12px;font-weight:700;display:grid;place-items:center;flex-shrink:0;}
+  .fg-rec-title{font-size:14.5px;font-weight:600;color:var(--bone);}
+  .fg-rec-amt{font-size:12.5px;font-weight:700;color:var(--gold-soft);background:rgba(201,162,75,.14);padding:2px 8px;border-radius:6px;margin-left:8px;white-space:nowrap;}
+  .fg-rec-detail{font-size:13px;color:var(--tx-dim);margin-top:4px;line-height:1.55;}
+  .fg-disclaimer{font-size:11.5px;color:var(--tx-dim);margin-top:16px;line-height:1.5;font-style:italic;}
+  .fg-cta{margin-top:22px;background:var(--gold);border-radius:16px;padding:26px 22px;text-align:center;}
+  .fg-cta h4{font-family:'Playfair Display',serif;font-weight:500;color:var(--pine);font-size:22px;margin-bottom:6px;}
+  .fg-cta p{color:#5A4A1E;font-size:14px;margin-bottom:18px;}
+  .fg-cta a{display:inline-block;background:var(--pine);color:var(--bone);font-weight:600;font-size:16px;padding:15px 30px;border-radius:12px;text-decoration:none;transition:background .15s;}
+  .fg-cta a:hover{background:var(--ink);}
+  .fg-restart{display:block;margin:18px auto 0;background:none;border:none;color:var(--tx-mid);font-size:14px;font-weight:500;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;}
+
+  footer{background:var(--ink);color:var(--tx-dim);padding:40px 0;text-align:center;font-size:13px;}
+  footer a{color:var(--mint);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-mark">S</span> Solobook</a>
+    <a href="index.html" class="nav-back">← Back to home</a>
+  </div>
+</nav>
+
+<header class="dh">
+  <div class="wrap">
+    <span class="eyebrow">The full framework</span>
+    <h1>The complete read on <span class="serif-i">what you can afford.</span></h1>
+    <p>Walk your real situation through all Five Gates — tax, floor, runway, debt, and the purchase itself — with the math behind every one. Takes about two minutes. Nothing is saved.</p>
+  </div>
+</header>
+
+<section class="fg-section" id="fivegates">
+  <div class="wrap">
+    <div class="fg-shell">
+      <div class="fg-card" id="fgCard"></div>
+      <div class="fg-results" id="fgResults"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Solobook — affordability for lumpy income. © 2026 · A framework, not financial advice. · <a href="index.html">Home</a>
+</footer>
+
+<script>
+/* ===== Solobook Five Gates engine — faithful to Methodology v1.1 (vanilla) ===== */
+(function(){
+  var NQ = 8; // question steps 1..8; step 0 = intro, step 9 = results
+
+  var S = {
+    step:0, err:'',
+    filingStatus:'single', stateBand:'none', payMethod:'finance', businessUse:'personal', debtType:'none',
+    purchaseName:'', purchasePrice:'', downPayment:'', financeRate:'', termMonths:'', recurringCost:'',
+    strongIncome:'', leanIncome:'', leanCount:'', businessExpenses:'',
+    taxBucket:'', monthlyContribution:'', fixedCosts:'', variableCosts:'', liquidSavings:'',
+    debtBalance:'', debtRate:''
+  };
+
+  var DEBT_LABELS = {
+    none:'No debt', 'credit-card':'Credit card', 'auto-personal':'Auto (personal)',
+    'auto-business':'Auto (business)', mortgage:'Mortgage', heloc:'HELOC',
+    'student-fed':'Student (federal)', 'student-private':'Student (private)', medical:'Medical', other:'Other'
+  };
+
+  var money = function(n){ return n.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}); };
+  var pct = function(x){ return (x*100).toFixed(0)+'%'; };
+
+  function federalRate(net, fs){
+    var bands = [
+      [40000,  {single:0.18, mfj:0.16, hoh:0.17}],
+      [80000,  {single:0.22, mfj:0.19, hoh:0.20}],
+      [130000, {single:0.27, mfj:0.24, hoh:0.25}],
+      [200000, {single:0.30, mfj:0.27, hoh:0.28}]
+    ];
+    for(var i=0;i<bands.length;i++){ if(net < bands[i][0]) return bands[i][1][fs]; }
+    return {single:0.33, mfj:0.30, hoh:0.31}[fs];
+  }
+  function stateAddon(b){ return b==='none'?0:b==='typical'?0.05:0.08; }
+  function pmt(ratePct, term, principal){
+    if(principal<=0||term<=0) return 0;
+    var r = ratePct/100/12;
+    if(r===0) return principal/term;
+    return (principal*r)/(1-Math.pow(1+r,-term));
+  }
+  function build12(strong, lean, count){
+    var c = Math.max(0, Math.min(12, Math.round(count))), a=[], i;
+    for(i=0;i<c;i++) a.push(lean);
+    for(i=0;i<12-c;i++) a.push(strong);
+    return a;
+  }
+  var POINTS = {'PASS COMFORTABLY':100,'PASS':80,'PASS WITH WATCH':60,'TIGHT':40,'FAIL':0};
+  function floorRatioVerdict(r){ return r<=0.5?'PASS COMFORTABLY':r<=0.65?'PASS':r<=0.8?'TIGHT':'FAIL'; }
+  function runwayVerdict(m, t){ return m>=6?'PASS COMFORTABLY':m>=t?'PASS':m>=2?'TIGHT':'FAIL'; }
+  function debtUrgency(type, rate){
+    switch(type){
+      case 'none': case 'auto-business': return 'ACCEPTABLE';
+      case 'credit-card': return 'TOXIC';
+      case 'mortgage': case 'heloc': return rate>8?'URGENT':'ACCEPTABLE';
+      case 'auto-personal': case 'student-fed': return rate>7?'URGENT':'ACCEPTABLE';
+      case 'student-private': return rate>6?'URGENT':'ACCEPTABLE';
+      case 'medical': return rate>5?'URGENT':'ACCEPTABLE';
+      default: return rate<4?'ACCEPTABLE':rate<8?'MODERATE':rate<15?'URGENT':'TOXIC';
+    }
+  }
+
+  function fgInputs(){
+    var num=function(k){ return parseFloat(S[k])||0; };
+    return {
+      filingStatus:S.filingStatus, stateBand:S.stateBand, payMethod:S.payMethod,
+      businessUse:S.businessUse==='business', debtType:S.debtType, purchaseName:S.purchaseName,
+      strongIncome:num('strongIncome'), leanIncome:num('leanIncome'), leanCount:num('leanCount'),
+      businessExpenses:num('businessExpenses'), taxBucket:num('taxBucket'),
+      monthlyContribution:num('monthlyContribution'), fixedCosts:num('fixedCosts'),
+      variableCosts:num('variableCosts'), liquidSavings:num('liquidSavings'),
+      debtBalance:num('debtBalance'), debtRate:num('debtRate'),
+      purchasePrice:num('purchasePrice'), downPayment:num('downPayment'),
+      financeRate:num('financeRate'), termMonths:num('termMonths'), recurringCost:num('recurringCost')
+    };
+  }
+
+  function evaluate(inp){
+    var TARGET = 4;
+    var income = build12(inp.strongIncome, inp.leanIncome, inp.leanCount);
+    var annualGross = income.reduce(function(a,b){return a+b;},0);
+    var annualNet = Math.max(0, annualGross - inp.businessExpenses);
+    var avgMonthlyNet = annualNet/12;
+    var fedRate = federalRate(annualNet, inp.filingStatus);
+    var reserveRate = fedRate + stateAddon(inp.stateBand);
+
+    var requiredMonthly = avgMonthlyNet * reserveRate;
+    var reserveTarget = annualNet * reserveRate;
+    var reserveGap = Math.max(0, reserveTarget - inp.taxBucket);
+    var pacingRatio = requiredMonthly>0 ? inp.monthlyContribution/requiredMonthly : 1;
+    var monthsToClose = inp.monthlyContribution>requiredMonthly ? reserveGap/(inp.monthlyContribution-requiredMonthly) : Infinity;
+    var g1;
+    if(pacingRatio>=1.1){ g1 = (reserveGap<=0.2*avgMonthlyNet || monthsToClose<=18)?'PASS':'PASS WITH WATCH'; }
+    else if(pacingRatio>=0.9){ g1 = reserveGap<=0.6*avgMonthlyNet?'PASS WITH WATCH':'TIGHT'; }
+    else if(pacingRatio>=0.5){ g1 = 'TIGHT'; } else { g1 = 'FAIL'; }
+    var pacingLabel = pacingRatio>=1.1?'on track':pacingRatio>=0.9?'pacing OK':pacingRatio>=0.5?'off pace':'well behind';
+    var gate1 = { name:'Tax reserve', verdict:g1,
+      headline:'Set aside '+money(requiredMonthly)+'/mo to stay on pace — you’re doing '+money(inp.monthlyContribution)+'/mo ('+pacingLabel+').',
+      math:[
+        'Net income (annual): '+money(annualGross)+' gross − '+money(inp.businessExpenses)+' expenses = '+money(annualNet),
+        'Reserve rate ('+inp.filingStatus.toUpperCase()+(inp.stateBand!=='none'?' + state':'')+'): '+pct(reserveRate),
+        'Required monthly = '+money(avgMonthlyNet)+' avg net/mo × '+pct(reserveRate)+' = '+money(requiredMonthly),
+        'Reserve target = '+money(annualNet)+' × '+pct(reserveRate)+' = '+money(reserveTarget),
+        'Cumulative gap = '+money(reserveTarget)+' − '+money(inp.taxBucket)+' in bucket = '+money(reserveGap),
+        'Pacing = '+money(inp.monthlyContribution)+' ÷ '+money(requiredMonthly)+' = '+pct(pacingRatio)+' → '+pacingLabel
+      ] };
+
+    var sorted = income.slice().sort(function(a,b){return a-b;});
+    var volatility = sorted[0]>0 ? sorted[11]/sorted[0] : 0;
+    var floor = volatility>4 ? sorted[0] : (sorted[0]+sorted[1]+sorted[2])/3;
+    var floorRatio = floor>0 ? inp.fixedCosts/floor : 1;
+    var gate2 = { name:'Income floor', verdict:floorRatioVerdict(floorRatio),
+      headline:'Your floor is '+money(floor)+'/mo. Fixed costs eat '+pct(floorRatio)+' of it.',
+      math:[
+        volatility>4 ? 'High volatility ('+volatility.toFixed(1)+'× swing) → floor = single lowest month = '+money(floor)
+                     : 'Floor = average of 3 lowest months ('+money(sorted[0])+', '+money(sorted[1])+', '+money(sorted[2])+') = '+money(floor),
+        'Floor ratio = '+money(inp.fixedCosts)+' fixed ÷ '+money(floor)+' floor = '+pct(floorRatio),
+        'Thresholds: ≤50% comfortable · ≤65% pass · ≤80% tight · >80% fail'
+      ] };
+
+    var realLiquid = inp.liquidSavings + inp.taxBucket - reserveTarget;
+    var floorBurn = inp.fixedCosts + inp.variableCosts;
+    var runway = floorBurn>0 ? realLiquid/floorBurn : 0;
+    var gate3 = { name:'Runway', verdict:runwayVerdict(runway, TARGET),
+      headline:runway.toFixed(1)+' months of real runway against a '+money(floorBurn)+'/mo burn.',
+      math:[
+        'Real liquid = '+money(inp.liquidSavings)+' savings + '+money(inp.taxBucket)+' tax bucket − '+money(reserveTarget)+' owed to IRS = '+money(realLiquid),
+        'Floor burn = '+money(inp.fixedCosts)+' fixed + '+money(inp.variableCosts)+' variable = '+money(floorBurn)+'/mo',
+        'Runway = '+money(realLiquid)+' ÷ '+money(floorBurn)+' = '+runway.toFixed(1)+' months',
+        'Target '+TARGET+' mo · ≥6 comfortable · ≥'+TARGET+' pass · ≥2 tight · <2 fail'
+      ] };
+
+    var urgency = debtUrgency(inp.debtType, inp.debtRate);
+    var baseMap = {ACCEPTABLE:'PASS COMFORTABLY', MODERATE:'PASS', URGENT:'TIGHT', TOXIC:'FAIL'};
+    var lenientMap = {ACCEPTABLE:'PASS COMFORTABLY', MODERATE:'PASS COMFORTABLY', URGENT:'PASS', TOXIC:'TIGHT'};
+    var g4 = (inp.businessUse?lenientMap:baseMap)[urgency];
+    var dlabel = (DEBT_LABELS[inp.debtType]||'debt');
+    var gate4 = { name:'Debt load', verdict:g4,
+      headline: inp.debtType==='none' ? 'No debt in the picture. Clean.' : 'Worst debt: '+dlabel.toLowerCase()+' → '+urgency.toLowerCase()+'.',
+      math: inp.debtType==='none' ? ['No debts entered, so this gate passes comfortably.']
+        : [ dlabel+' at '+inp.debtRate+'% on '+money(inp.debtBalance),
+            'Category rule → urgency: '+urgency,
+            inp.businessUse?'Income-generating purchase → debt gate is one notch more lenient.':'Standard evaluation (most-urgent debt drives the verdict).' ] };
+
+    var financed = inp.payMethod==='finance';
+    var cashOutlay = financed ? inp.downPayment : inp.purchasePrice;
+    var amountFinanced = financed ? Math.max(0, inp.purchasePrice - inp.downPayment) : 0;
+    var monthlyPayment = financed ? pmt(inp.financeRate, inp.termMonths, amountFinanced) : 0;
+    var totalRecurring = monthlyPayment + inp.recurringCost;
+    var deductibility = inp.businessUse ? 0.6 : 0;
+    var effectiveRecurring = totalRecurring * (1 - deductibility*fedRate);
+    var newFixed = inp.fixedCosts + effectiveRecurring;
+    var newFloorRatio = floor>0 ? newFixed/floor : 1;
+    var newRunway = (floorBurn+effectiveRecurring)>0 ? (realLiquid - cashOutlay)/(floorBurn+effectiveRecurring) : 0;
+    var floorDim = floorRatioVerdict(newFloorRatio);
+    var runwayDim = runwayVerdict(newRunway, TARGET);
+    var g5 = POINTS[floorDim]<=POINTS[runwayDim] ? floorDim : runwayDim;
+    var escalates = newRunway < 1;
+    var thing = inp.purchaseName.trim() || 'This purchase';
+    var gate5 = { name:'Purchase fit', verdict:g5, escalates:escalates,
+      headline: thing+' moves runway '+runway.toFixed(1)+' → '+newRunway.toFixed(1)+' mo and fixed costs to '+pct(newFloorRatio)+' of floor.',
+      math:[
+        financed ? 'Financed '+money(amountFinanced)+' at '+inp.financeRate+'% / '+inp.termMonths+' mo = '+money(monthlyPayment)+'/mo payment'
+                 : 'Cash purchase: '+money(inp.purchasePrice)+' out of liquid savings',
+        'Ongoing cost = '+money(monthlyPayment)+' payment + '+money(inp.recurringCost)+' upkeep = '+money(totalRecurring)+'/mo'+(deductibility?' (−'+pct(deductibility)+' deductible → '+money(effectiveRecurring)+')':''),
+        'New runway = ('+money(realLiquid)+' − '+money(cashOutlay)+') ÷ '+money(floorBurn+effectiveRecurring)+' = '+newRunway.toFixed(1)+' mo',
+        'New floor ratio = '+money(newFixed)+' ÷ '+money(floor)+' = '+pct(newFloorRatio),
+        escalates ? 'Post-purchase runway under 1 month → doesn’t make sense regardless.' : 'Passes only if BOTH runway and floor hold.'
+      ] };
+
+    var gates = [gate1, gate2, gate3, gate4, gate5];
+
+    var anyFail = gates.some(function(g){return g.verdict==='FAIL';});
+    var anySoft = gates.some(function(g){return g.verdict==='TIGHT'||g.verdict==='PASS WITH WATCH';});
+    var overall;
+    if(escalates) overall = "Doesn't make sense regardless";
+    else if(anyFail) overall = "Not yet — here's the sequence";
+    else if(anySoft) overall = "Yes, but it tightens things";
+    else overall = "Yes, comfortably";
+
+    var score = Math.round(gates.reduce(function(s,g){return s+POINTS[g.verdict];},0)/gates.length);
+
+    var recs = [];
+    var pacingOk = inp.monthlyContribution >= requiredMonthly;
+    var floorSolvent = floorRatio <= 0.8;
+    var baselineRunway = runway >= 2;
+    var toxicGone = urgency !== 'TOXIC';
+    var taxCaughtUp = reserveGap <= 0;
+    var targetRunway = runway >= TARGET;
+    if(!pacingOk) recs.push({title:'Raise your monthly tax set-aside', amount:'+'+money(requiredMonthly-inp.monthlyContribution)+'/mo',
+      detail:'The IRS comes first. Get your monthly pacing right before anything else — it’s the one thing you control today, and it stops the gap from growing.'});
+    if(!floorSolvent) recs.push({title:'Lower your fixed costs', amount:'',
+      detail:'Fixed costs are '+pct(floorRatio)+' of your floor. Above 80%, no amount of saving fixes it — the structure has to change (rent, subscriptions, fixed obligations).'});
+    if(!baselineRunway) recs.push({title:'Build a 2-month baseline cushion', amount:money(Math.max(0,2*floorBurn-realLiquid)),
+      detail:'Get to at least 2 months of floor burn in real liquid savings before discretionary moves.'});
+    if(!toxicGone) recs.push({title:'Kill the toxic debt', amount:money(inp.debtBalance),
+      detail:'Your '+dlabel.toLowerCase()+' at '+inp.debtRate+'% is a guaranteed '+inp.debtRate+'% return when paid off — better than almost any investment.'});
+    if(pacingOk && !taxCaughtUp) recs.push({title:'Close the cumulative tax gap', amount:money(reserveGap),
+      detail:'Your monthly pacing is good, so now top up the bucket toward the year-to-date target.'});
+    if(baselineRunway && !targetRunway) recs.push({title:'Build runway to '+TARGET+' months', amount:money(Math.max(0,TARGET*floorBurn-realLiquid)),
+      detail:'1099 income can take months to rebuild after a slow stretch. Target 4–6 months.'});
+    if(toxicGone && urgency==='URGENT') recs.push({title:'Address high-cost debt', amount:money(inp.debtBalance),
+      detail:'Your '+dlabel.toLowerCase()+' at '+inp.debtRate+'% is next once toxic debt and baseline runway are handled.'});
+
+    var branch = recs.length>0 ? 'fix' : 'grow';
+    if(branch==='grow'){
+      recs.push(
+        {title:'Stack a high-yield savings ladder for short-term money', amount:'',
+         detail:'Keep ~2 months of burn in a high-yield savings account (instant access). Ladder the rest you may need within 1–2 years across short-term CDs or Treasury bills at staggered maturities (e.g. 3 / 6 / 12 months) so cash frees up on a rolling basis while earning more than checking.'},
+        {title:'Fund tax-advantaged retirement', amount:'',
+         detail:'As a 1099 worker, a SEP-IRA or Solo 401(k) lets you shelter far more than a standard IRA. This year’s contribution room is use-it-or-lose-it — prioritize it for long-term money.'},
+        {title:'Long-term: taxable brokerage', amount:'',
+         detail:'Money you won’t touch for 5+ years and beyond retirement limits can go to a taxable brokerage account for long-term growth.'}
+      );
+    }
+
+    return { gates:gates, overall:overall, score:score, branch:branch, recommendations:recs, thing:thing };
+  }
+
+  function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+  function $(id){ return document.getElementById(id); }
+
+  function fMoney(label,k,ph){ return '<div class="fg-field"><label>'+label+'</label><div class="fg-inp money"><input class="fg-f" inputmode="decimal" id="fg_'+k+'" value="'+esc(S[k])+'" placeholder="'+ph+'"></div></div>'; }
+  function fNum(label,k,ph){ return '<div class="fg-field"><label>'+label+'</label><div class="fg-inp"><input class="fg-f" inputmode="decimal" id="fg_'+k+'" value="'+esc(S[k])+'" placeholder="'+ph+'"></div></div>'; }
+  function fText(label,k,ph){ return '<div class="fg-field"><label>'+label+'</label><div class="fg-inp"><input class="fg-f" type="text" id="fg_'+k+'" value="'+esc(S[k])+'" placeholder="'+ph+'"></div></div>'; }
+  function choice(field,value,label,sub){ return '<button type="button" class="fg-choice'+(S[field]===value?' on':'')+'" onclick="fgPick(\''+field+'\',\''+value+'\')">'+label+(sub?'<span class="sub">'+sub+'</span>':'')+'</button>'; }
+
+  function stepBody(step){
+    switch(step){
+      case 0: return '<h2 class="fg-q-title">Can you actually afford it?</h2>'+
+        '<p class="fg-q-help">Answer a few honest questions and we’ll run your situation through the Five Gates — tax, floor, runway, debt, and the purchase itself. About two minutes. Nothing is saved.</p>'+
+        '<div class="fg-choices"><button class="fg-choice center" onclick="fgNext()">Let’s do it →</button></div>';
+      case 1: return '<h2 class="fg-q-title">What are you thinking about buying?</h2>'+
+        '<p class="fg-q-help">A car, gear, a watch, a trip — anything with a price tag.</p>'+
+        fText('The thing','purchaseName','Used Corvette, new camera, a vacation…')+
+        fMoney('Price','purchasePrice','32,000');
+      case 2: return '<h2 class="fg-q-title">How would you pay for it?</h2>'+
+        '<p class="fg-q-help">This changes the math a lot — cash hits your runway now; financing adds a monthly weight.</p>'+
+        '<div class="fg-choices cols2">'+choice('payMethod','cash','Cash')+choice('payMethod','finance','Finance it')+'</div>'+
+        (S.payMethod==='finance'?'<div style="margin-top:16px"><div class="fg-row2">'+fMoney('Down payment','downPayment','5,000')+fNum('Rate (APR %)','financeRate','9')+'</div>'+fNum('Term (months)','termMonths','72')+'</div>':'')+
+        '<div style="margin-top:4px">'+fMoney('Ongoing monthly cost (insurance, upkeep, subscriptions)','recurringCost','150')+'</div>'+
+        '<div class="fg-field"><label>Is this mainly for your business?</label><div class="fg-choices cols2">'+choice('businessUse','personal','Personal')+choice('businessUse','business','Business')+'</div></div>';
+      case 3: return '<h2 class="fg-q-title">How does your income actually look?</h2>'+
+        '<p class="fg-q-help">1099 income is lumpy. We don’t want your average — we want the shape, so we can find your real floor.</p>'+
+        '<div class="fg-row2">'+fMoney('A strong month','strongIncome','14,000')+fMoney('A lean month','leanIncome','7,000')+'</div>'+
+        fNum('Out of the last 12 months, how many were lean?','leanCount','4');
+      case 4: return '<h2 class="fg-q-title">Roughly your yearly business expenses?</h2>'+
+        '<p class="fg-q-help">Gear, software, travel, fees — what you write off. We subtract this to find your net, which drives your tax reserve.</p>'+
+        fMoney('Annual business expenses','businessExpenses','20,000');
+      case 5: return '<h2 class="fg-q-title">Let’s talk taxes.</h2>'+
+        '<p class="fg-q-help">The IRS comes first — no other gate is honest if tax money is being counted as spendable.</p>'+
+        '<div class="fg-field"><label>Filing status</label><div class="fg-choices">'+choice('filingStatus','single','Single')+choice('filingStatus','mfj','Married, filing jointly')+choice('filingStatus','hoh','Head of household')+'</div></div>'+
+        '<div class="fg-field"><label>Your state’s income tax</label><div class="fg-choices">'+choice('stateBand','none','No state income tax','FL, TX, TN, NV, WA, WY, SD, AK')+choice('stateBand','typical','Typical','most states, ~5%')+choice('stateBand','high','High-tax state','CA, NY, NJ, OR, HI')+'</div></div>'+
+        '<div class="fg-row2">'+fMoney('In your tax bucket now','taxBucket','0')+fMoney('Set aside per month','monthlyContribution','0')+'</div>';
+      case 6: return '<h2 class="fg-q-title">What does a month cost you?</h2>'+
+        '<p class="fg-q-help">Fixed = the bills you can’t skip (rent, insurance, minimums). Variable = your typical everything-else.</p>'+
+        fMoney('Fixed monthly costs','fixedCosts','1,800')+fMoney('Typical variable spending','variableCosts','2,500');
+      case 7: return '<h2 class="fg-q-title">How much cash do you have on hand?</h2>'+
+        '<p class="fg-q-help">Checking + savings you could actually reach. Leave out retirement accounts and your tax bucket — we count that separately.</p>'+
+        fMoney('Liquid savings','liquidSavings','42,000');
+      case 8:
+        var opts='';
+        for(var k in DEBT_LABELS){ opts+='<option value="'+k+'"'+(S.debtType===k?' selected':'')+'>'+DEBT_LABELS[k]+'</option>'; }
+        return '<h2 class="fg-q-title">Carrying any debt?</h2>'+
+          '<p class="fg-q-help">Not all debt is equal — a mortgage and a credit card are graded completely differently.</p>'+
+          '<div class="fg-field"><label>Biggest debt</label><div class="fg-inp"><select class="fg-f" id="fg_debtType" onchange="fgSelectDebt(this.value)">'+opts+'</select></div></div>'+
+          (S.debtType!=='none'?'<div class="fg-row2">'+fMoney('Balance','debtBalance','6,800')+fNum('Rate (APR %)','debtRate','22')+'</div>':'');
+    }
+    return '';
+  }
+
+  function fgStepHTML(step){
+    var head='';
+    if(step>=1 && step<=NQ){
+      var p=Math.round(step/NQ*100);
+      head='<div class="fg-step-count">Step '+step+' of '+NQ+'</div><div class="fg-progress"><span style="width:'+p+'%"></span></div>';
+    }
+    var nav='';
+    if(step>0){
+      var last = step===NQ;
+      nav='<div class="fg-nav"><button class="fg-btn fg-btn-back" onclick="fgBack()">← Back</button>'+
+          '<button class="fg-btn fg-btn-primary'+(last?' fg-btn-gold':'')+'" onclick="fgNext()">'+(last?'See the verdict →':'Continue →')+'</button></div>';
+    }
+    var err = S.err ? '<div class="fg-err">'+esc(S.err)+'</div>' : '';
+    return head+'<div class="fg-enter">'+stepBody(step)+err+nav+'</div>';
+  }
+
+  function fgSync(){
+    var els = document.querySelectorAll('#fgCard [id^="fg_"]');
+    for(var i=0;i<els.length;i++){ S[els[i].id.slice(3)] = els[i].value; }
+  }
+  function fgRender(){
+    if(S.step===9){ fgRenderResults(); return; }
+    $('fgResults').classList.remove('show');
+    var card=$('fgCard'); card.style.display='';
+    card.innerHTML = fgStepHTML(S.step);
+  }
+  function fgScroll(){ var el=$('fivegates'); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+  function fgValidate(step){
+    var num=function(k){return parseFloat(S[k])||0;};
+    var empty=function(k){return (S[k]||'').toString().trim()==='';};
+    switch(step){
+      case 1:
+        if((S.purchaseName||'').trim()==='') return 'What are you thinking about buying?';
+        if(empty('purchasePrice')||num('purchasePrice')<=0) return 'Add a price so we can run the math.';
+        return '';
+      case 2:
+        if(S.payMethod==='finance'){
+          if(empty('downPayment')) return 'How much are you putting down? (Enter 0 if nothing.)';
+          if(empty('financeRate')||empty('termMonths')||num('termMonths')<=0) return 'Add the financing rate and term.';
+        }
+        if(empty('recurringCost')) return 'Roughly what does it cost to run each month? (Enter 0 if nothing.)';
+        return '';
+      case 3:
+        if(empty('strongIncome')||num('strongIncome')<=0) return 'Add a typical strong month.';
+        if(empty('leanIncome')||num('leanIncome')<=0) return 'Add a typical lean month.';
+        if(empty('leanCount')) return 'How many lean months? (Enter 0 if none.)';
+        if(num('leanIncome')>num('strongIncome')) return 'Your lean month should be no higher than your strong month.';
+        return '';
+      case 4: if(empty('businessExpenses')) return 'Add your annual business expenses (0 is fine).'; return '';
+      case 5:
+        if(empty('taxBucket')) return 'How much is in your tax bucket? (Enter 0 if none.)';
+        if(empty('monthlyContribution')) return 'How much do you set aside monthly? (Enter 0 if none.)';
+        return '';
+      case 6:
+        if(empty('fixedCosts')||num('fixedCosts')<=0) return 'Add your fixed monthly costs.';
+        if(empty('variableCosts')||num('variableCosts')<=0) return 'Add your typical variable spending.';
+        return '';
+      case 7: if(empty('liquidSavings')) return 'How much liquid cash do you have? (Enter 0 if none.)'; return '';
+      case 8:
+        if(S.debtType!=='none'){
+          if(empty('debtBalance')||num('debtBalance')<=0) return 'Add the balance on that debt.';
+          if(empty('debtRate')) return 'Add the interest rate.';
+        }
+        return '';
+    }
+    return '';
+  }
+
+  window.fgPick = function(field,value){ fgSync(); S[field]=value; S.err=''; fgRender(); };
+  window.fgSelectDebt = function(value){ fgSync(); S.debtType=value; S.err=''; fgRender(); };
+  window.fgNext = function(){ fgSync(); var m=fgValidate(S.step); if(m){ S.err=m; fgRender(); return; } S.err=''; S.step++; fgRender(); fgScroll(); };
+  window.fgBack = function(){ fgSync(); S.err=''; if(S.step>0) S.step--; fgRender(); fgScroll(); };
+  window.fgToggleGate = function(btn){ btn.parentElement.classList.toggle('open'); };
+  window.fgRestart = function(){
+    S = { step:0, err:'', filingStatus:'single', stateBand:'none', payMethod:'finance', businessUse:'personal', debtType:'none',
+      purchaseName:'', purchasePrice:'', downPayment:'', financeRate:'', termMonths:'', recurringCost:'',
+      strongIncome:'', leanIncome:'', leanCount:'', businessExpenses:'',
+      taxBucket:'', monthlyContribution:'', fixedCosts:'', variableCosts:'', liquidSavings:'', debtBalance:'', debtRate:'' };
+    $('fgResults').classList.remove('show'); $('fgResults').innerHTML='';
+    fgRender(); fgScroll();
+  };
+
+  function dotClass(v){ return v==='FAIL'?'fail':(v==='TIGHT'||v==='PASS WITH WATCH')?'watch':'pass'; }
+  function dotIcon(v){ return v==='FAIL'?'✕':(v==='TIGHT'||v==='PASS WITH WATCH')?'!':'✓'; }
+  var VMETA = {
+    "Yes, comfortably":      {cls:'yes',  badge:'The verdict'},
+    "Yes, but it tightens things": {cls:'tight', badge:'The verdict'},
+    "Not yet — here's the sequence": {cls:'no', badge:'The honest verdict'},
+    "Doesn't make sense regardless": {cls:'nope', badge:'The honest verdict'}
+  };
+  function vSub(overall, thing){
+    if(overall==='Yes, comfortably') return thing+' clears all five gates comfortably. This fits your financial reality — enjoy it.';
+    if(overall==='Yes, but it tightens things') return thing+' is doable, but it pulls at least one gate tight. Go in with eyes open.';
+    if(overall==="Not yet — here's the sequence") return 'Not yet — and that’s a real answer, not a soft no. Here’s the exact order to fix it.';
+    return thing+' doesn’t work at any angle right now — it would leave you under a month of runway.';
+  }
+
+  function fgRenderResults(){
+    var res = evaluate(fgInputs());
+    var meta = VMETA[res.overall] || {cls:'no',badge:'The verdict'};
+    var html = '<div class="fg-enter">';
+    html += '<div class="fg-verdict '+meta.cls+'"><div class="fg-badge">'+meta.badge+'</div><h3>'+esc(res.overall)+'</h3><p>'+esc(vSub(res.overall,res.thing))+'</p>'+
+            '<div class="fg-score"><div class="fg-dial" style="background:conic-gradient(var(--emerald) '+res.score+'%, #E4DFD4 0)"><b>'+res.score+'</b><small>READINESS</small></div></div></div>';
+    html += '<div class="fg-gates">';
+    for(var i=0;i<res.gates.length;i++){
+      var g=res.gates[i];
+      var mathLis=''; for(var j=0;j<g.math.length;j++){ mathLis+='<li>'+esc(g.math[j])+'</li>'; }
+      html += '<div class="fg-gate'+(i===0?' open':'')+'">'+
+        '<button class="fg-gate-head" onclick="fgToggleGate(this)"><span class="fg-gate-dot '+dotClass(g.verdict)+'">'+dotIcon(g.verdict)+'</span>'+
+        '<span class="fg-gate-meta"><span class="fg-gate-name">'+esc(g.name)+'</span><span class="fg-gate-verdict"> · '+esc(g.verdict)+'</span></span>'+
+        '<span class="fg-gate-chev">▶</span></button>'+
+        '<div class="fg-gate-body"><div class="hl">'+esc(g.headline)+'</div><div class="fg-math"><div class="ml">The math</div><ul>'+mathLis+'</ul></div></div></div>';
+    }
+    html += '</div>';
+    html += '<div class="fg-recs">';
+    if(res.branch==='fix'){
+      html += '<h4>Where your money goes first</h4><p>Before '+esc(res.thing)+' makes sense, here’s the order to put the next dollar — most fundamental first. Fix the top one and the rest often follow.</p>';
+    } else {
+      html += '<h4>You’re in good shape — now put money to work</h4><p>The foundation is solid. Here’s how to structure what’s left, by time horizon.</p>';
+    }
+    for(var r=0;r<res.recommendations.length;r++){
+      var rec=res.recommendations[r];
+      html += '<div class="fg-rec"><span class="fg-rec-num">'+(r+1)+'</span><div><div class="fg-rec-title">'+esc(rec.title)+(rec.amount?'<span class="fg-rec-amt">'+esc(rec.amount)+'</span>':'')+'</div><div class="fg-rec-detail">'+esc(rec.detail)+'</div></div></div>';
+    }
+    html += '<p class="fg-disclaimer">Educational only — not financial, tax, or investment advice. Solobook recommends categories of accounts and a structure, never specific securities or products, and doesn’t replace a tax pro. Verdicts are a framework; the decision is always yours.</p>';
+    html += '</div>';
+    html += '<div class="fg-cta"><h4>Run this on your real numbers</h4><p>This demo used quick estimates. A 15-minute session runs your full, real situation — every gate, your actual purchase.</p>'+
+            '<a href="mailto:cadencesmith242@gmail.com?subject=Solobook%20session&body=I%20ran%20the%20demo%20and%20want%20to%20run%20my%20real%20numbers.">Book your session →</a></div>';
+    html += '<button class="fg-restart" onclick="fgRestart()">← Run a different scenario</button>';
+    html += '</div>';
+
+    $('fgCard').style.display='none';
+    var rs=$('fgResults'); rs.innerHTML=html; rs.classList.add('show');
+  }
+
+  fgRender();
+})();
+</script>
+</body>
+</html>

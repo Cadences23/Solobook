@@ -291,6 +291,39 @@
   }
   @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important;}}
   a:focus-visible,.btn-primary:focus-visible,.cta-btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px;}
+  /* ===== Full-demo CTA band (links to five-gates.html) ===== */
+  .fullcta{background:var(--bone-warm);padding:74px 0;text-align:center;}
+  .fullcta .eyebrow{display:block;margin-bottom:14px;}
+  .fullcta h2{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(26px,3.6vw,40px);line-height:1.12;color:var(--tx-dark);margin:0 auto 14px;max-width:640px;letter-spacing:-0.01em;}
+  .fullcta p{font-size:15px;color:var(--tx-mid);line-height:1.6;max-width:560px;margin:0 auto 26px;}
+  .fullcta-btn{display:inline-flex;align-items:center;gap:9px;background:var(--emerald);color:var(--pine);font-weight:600;font-size:16px;padding:16px 30px;border-radius:11px;text-decoration:none;transition:transform .12s,background .15s;}
+  .fullcta-btn:hover{background:var(--mint);transform:translateY(-1px);}
+
+  /* ===== Investment strategies ===== */
+  .inv-section{background:var(--bone);padding:72px 0;}
+  .inv-head{max-width:560px;margin:0 auto 32px;text-align:center;}
+  .inv-eyebrow{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px;}
+  .inv-head h2{font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(26px,3.6vw,38px);line-height:1.12;margin-bottom:12px;color:var(--tx-dark);letter-spacing:-0.01em;}
+  .inv-i{font-style:italic;color:var(--emerald-deep);}
+  .inv-head p{color:var(--tx-mid);font-size:15px;line-height:1.6;}
+  .inv-grid{display:grid;gap:16px;max-width:1000px;margin:0 auto;}
+  @media(min-width:760px){.inv-grid{grid-template-columns:repeat(3,1fr);align-items:start;}}
+  .inv-card{background:#fff;border:1px solid var(--line-dark);border-radius:16px;padding:24px 22px;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+  .inv-card.short{border-top:3px solid var(--emerald);}
+  .inv-card.long{border-top:3px solid var(--gold);}
+  .inv-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .inv-pill{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:99px;}
+  .inv-pill.short{background:#D1FAE5;color:var(--emerald-deep);}
+  .inv-pill.long{background:rgba(201,162,75,.16);color:#8A6D24;}
+  .inv-num{font-family:'Playfair Display',serif;font-size:18px;color:var(--tx-dim);width:30px;height:30px;border:1px solid var(--line-dark);border-radius:50%;display:grid;place-items:center;}
+  .inv-name{font-family:'Playfair Display',serif;font-weight:500;font-size:22px;line-height:1.15;margin-bottom:8px;color:var(--tx-dark);}
+  .inv-for{font-size:14px;font-weight:600;color:var(--tx-dark);margin-bottom:12px;line-height:1.4;}
+  .inv-explain{font-size:13.5px;color:var(--tx-mid);line-height:1.62;margin-bottom:18px;flex:1;}
+  .inv-tag{font-size:12.5px;color:var(--tx-mid);border-top:1px solid var(--line-dark);padding-top:14px;line-height:1.5;}
+  .inv-tag-label{display:block;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+  .inv-disclaimer{max-width:1000px;margin:28px auto 0;background:var(--pine);border-radius:14px;padding:22px;border:1px solid rgba(255,255,255,.06);}
+  .inv-disclaimer-label{display:block;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px;}
+  .inv-disclaimer p{font-size:12.5px;line-height:1.65;color:var(--tx-dim);}
 </style>
 </head>
 <body>
@@ -571,6 +604,52 @@
       <div id="calcAdviceContainer"></div>
       <div style="text-align:center;padding:24px 0;"><button class="calc-copy-btn" id="calcCopyBtn" onclick="calcCopyResults()">Copy my results</button><button class="calc-restart-btn" onclick="calcRestart()">← Run different numbers</button></div>
     </div>
+  </div>
+</section>
+
+<section class="fullcta" id="fivegates">
+  <div class="wrap">
+    <span class="eyebrow">The full framework</span>
+    <h2>The complete read on <span class="serif-i" style="color:var(--emerald-deep)">what you can afford.</span></h2>
+    <p>The quick check above is a taste. The full walkthrough runs your real situation through all Five Gates — tax, floor, runway, debt, and the purchase itself — and shows the math behind every one.</p>
+    <a href="five-gates.html" class="fullcta-btn">Run the full Five Gates →</a>
+  </div>
+</section>
+
+<section class="inv-section" id="strategies">
+  <div class="wrap">
+    <div class="inv-head">
+      <span class="inv-eyebrow">Educational overview</span>
+      <h2>Where the long-game money <span class="inv-i">actually goes.</span></h2>
+      <p>Once the gates are clear, the next question is simple: short-term money stays safe and reachable, long-term money goes to work. A few well-understood options, ordered by time horizon — no stock-picking, no complexity.</p>
+    </div>
+    <div class="inv-grid">
+      <article class="inv-card short">
+        <div class="inv-top"><span class="inv-pill short">Short-term</span><span class="inv-num">1</span></div>
+        <h3 class="inv-name">High-yield <span class="inv-i">savings</span></h3>
+        <p class="inv-for">Cash you might need soon — kept safe and liquid.</p>
+        <p class="inv-explain">A high-yield savings account (HYSA) holds your emergency fund, runway, and tax bucket in plain cash — FDIC-insured, no market risk — while earning meaningfully more interest than a regular checking account. It makes sense for money you can't afford to lose or might need within the next year or two.</p>
+        <div class="inv-tag"><span class="inv-tag-label">Best for</span>Emergency fund · runway · near-term goals</div>
+      </article>
+      <article class="inv-card long">
+        <div class="inv-top"><span class="inv-pill long">Long-term</span><span class="inv-num">2</span></div>
+        <h3 class="inv-name">Broad index <span class="inv-i">investing</span></h3>
+        <p class="inv-for">Money you won't touch for years, working in the market.</p>
+        <p class="inv-explain">A low-cost, broad-market index fund (an S&amp;P 500 fund like VOO is the common example) spreads a single investment across hundreds of large companies — so you're tracking the whole market instead of picking individual winners. Markets have historically trended up over long stretches, but they swing a lot year to year, which is why this suits money you can leave alone for 5+ years and ride out the dips.</p>
+        <div class="inv-tag"><span class="inv-tag-label">Best for</span>Long-term growth · 5+ year horizon</div>
+      </article>
+      <article class="inv-card long">
+        <div class="inv-top"><span class="inv-pill long">Long-term</span><span class="inv-num">3</span></div>
+        <h3 class="inv-name">Retirement <span class="inv-i">accounts</span></h3>
+        <p class="inv-for">The tax-advantaged wrapper the rest can live inside.</p>
+        <p class="inv-explain">These aren't investments themselves — they're accounts that hold investments (like index funds) with tax advantages. As a self-employed worker, a Solo 401(k) or SEP-IRA lets you contribute far more than a standard IRA and lower your taxable income now; a Roth IRA grows tax-free for later. Each year's contribution room is use-it-or-lose-it.</p>
+        <div class="inv-tag"><span class="inv-tag-label">Best for</span>Solo 401(k) · SEP-IRA · Roth IRA</div>
+      </article>
+    </div>
+    <aside class="inv-disclaimer" role="note" aria-label="Important disclaimer">
+      <span class="inv-disclaimer-label">Important — please read</span>
+      <p>The information provided here is for educational purposes only and does not constitute financial, investment, tax, or legal advice. Solobook is not a registered investment advisor, broker-dealer, or financial planner. Any strategies, account types, or products mentioned are general examples and not personalized recommendations. Investing involves risk, including the possible loss of principal. Past performance does not guarantee future results. Before making any financial decisions, consult a qualified, licensed professional who can account for your individual circumstances.</p>
+    </aside>
   </div>
 </section>
 
