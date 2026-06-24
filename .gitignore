@@ -3,3 +3,6 @@
 
 # Local image-generation script (build artifact, has absolute paths)
 make_og.py
+
+# Claude Code chat context, not part of the site
+Context Files/
